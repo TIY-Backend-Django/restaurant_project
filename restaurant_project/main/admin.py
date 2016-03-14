@@ -60,7 +60,7 @@ class ItemAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     exclude = ('restaurant', 'user', 'total_price', 'notes')
-    list_display = ('user', 'date', 'fulfilled', 'total_price', 'notes')
+    list_display = ('user', 'date', 'fulfilled', 'total_price', 'notes', 'first_name', 'last_name')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

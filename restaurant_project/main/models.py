@@ -38,7 +38,7 @@ class Restaurant(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    owner = models.OneToOneField(Restaurant)
+    owner = models.OneToOneField(Restaurant, null=True)
     number = models.CharField(max_length=15, null=True)
     city = models.CharField(max_length=128, null=True)
     zip_code = models.IntegerField(null=True)
@@ -57,3 +57,11 @@ class Order(models.Model):
     fulfilled = models.BooleanField(default=False)
     total_price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     notes = models.CharField(max_length=512, blank=True, null=True)
+    number = models.CharField(max_length=15, null=True)
+    city = models.CharField(max_length=128, null=True)
+    zip_code = models.IntegerField(null=True)
+    address = models.CharField(max_length=255, null=True)
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+
+

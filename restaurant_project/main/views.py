@@ -17,13 +17,13 @@ class SignupConsumer(CreateView):
         new_user.user = new_user
         new_user.first_name = form.cleaned_data['first_name']
         new_user.last_name = form.cleaned_data['last_name']
+        new_user.save()
         new_profile = UserProfile(user=new_user, number=form.cleaned_data['number'],
                                   city=form.cleaned_data['city'],
                                   zip_code=form.cleaned_data['zip_code'],
                                   address=form.cleaned_data['address'],
                                   allergies=form.cleaned_data['allergies'])
         new_profile.save()
-        new_user.save()
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -95,6 +95,13 @@ class OrderCreateView(CreateView):
             order_object.items.add(item)
         total_price = sum([item.price for item in order_object.items.all()])
         order_object.total_price = total_price
+        order_object.first_name = self.request.user.first_name
+        order_object.last_name = self.request.user.last_name
+        order_object.number = self.request.user.userprofile.number
+        order_object.city = self.request.user.userprofile.city
+        order_object.zip_code = self.request.user.userprofile.zip_code
+        order_object.address = self.request.user.userprofile.address
+        order_object.save()
         return super().form_valid(form)
 
     def get_success_url(self):
