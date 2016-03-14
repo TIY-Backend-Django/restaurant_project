@@ -45,6 +45,9 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=255, null=True)
     allergies = models.CharField(max_length=512, null=True)
 
+    def __str__(self):
+        return self.user.username
+
 
 class Order(models.Model):
     restaurant = models.ForeignKey(Restaurant)

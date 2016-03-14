@@ -1,6 +1,7 @@
+from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, View
 from django.core.urlresolvers import reverse
 
 from main.models import Restaurant, Order, Item, UserProfile
@@ -43,12 +44,17 @@ class SignupManager(CreateView):
         new_user.save()
         new_restaurant = Restaurant(owner=new_user, name=form.cleaned_data['name'])
         new_restaurant.save()
-        new_profile = UserProfile(user=new_user)
+        new_profile = UserProfile(user=new_user, owner=new_restaurant)
         new_profile.save()
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('login')
+        return reverse('admin:index')
+
+
+class ManagerLogIn(View):
+    def get(self, request):
+        return redirect('admin:index')
 
 
 class UserProfileUpdate(UpdateView):
@@ -117,40 +123,6 @@ class OrderUpdateView(UpdateView):
 
 class ItemDetailView(DetailView):
     model = Item
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class MainView(TemplateView):
